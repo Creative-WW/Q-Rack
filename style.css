@@ -7,8 +7,7 @@ body {
   padding: 50px 0;
 }
 
-h1,
-footer {
+h1, footer {
   position: fixed;
   width: 100%;
   left: 0;
@@ -25,26 +24,22 @@ h1 {
   font-size: 1.4rem;
 }
 
-/* Responsive AR button */
 #ar-button {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: 275vw; /* responsive width */
-  height: 275vw; /* responsive height */
-  max-width: 400px; /* max size */
-  max-height: 400px; /* max size */
+  width: clamp(200px, 60vw, 400px);
+  height: clamp(200px, 60vw, 400px);
   transform: translate(-50%, -50%);
   cursor: pointer;
-  z-index: 1001; /* above header/footer */
-  margin: 0; /* reset margin */
+  z-index: 1001;
 }
 
 #ar-button img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-  transition: transform 0.2s;
+  transition: transform 0.2s ease-in-out;
   display: block;
 }
 
