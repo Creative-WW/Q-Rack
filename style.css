@@ -28,8 +28,8 @@ h1 {
   position: fixed;
   top: 50%;
   left: 50%;
-  width: clamp(300px, 100vw, 600px);
-  height: clamp(300px, 100vw, 600px);
+  width: clamp(300px, 125vw, 600px);
+  height: clamp(300px, 125vw, 600px);
   transform: translate(-50%, -50%);
   cursor: pointer;
   z-index: 1001;
