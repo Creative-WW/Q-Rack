@@ -1,6 +1,6 @@
 // config.js
 window.projectConfig = {
-  title: "Q Rack",
+  title: "DD3358 . Q Rack",
   description: "View the Q Rack in AR on your mobile device.",
   image: "assets/Q Rack.png", // used for AR button
   usdz: "assets/AR_DQ3358.usdz",
