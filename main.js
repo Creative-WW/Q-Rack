@@ -16,24 +16,20 @@
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
   const isAndroid = /Android/i.test(ua);
 
-  // Helper: fallback for desktop or unsupported devices
-  const fallbackContent = () => {
-    fallback.textContent = "AR is only supported on iOS and Android devices.";
-    arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
-  };
+  const imgHTML = `<img src="${cfg.image}" alt="View ${cfg.title} in AR" loading="eager" />`;
 
   if (isIOS) {
-    // iOS Quick Look with model-viewer and .usdz
     arBtn.innerHTML = `
+      ${imgHTML}
       <model-viewer
+        id="mv"
         src="${cfg.glb}"
         ios-src="${cfg.usdz}"
         alt="View ${cfg.title} in AR"
         ar
         ar-modes="quick-look"
-        poster="${cfg.image}"
-        loading="eager"
-        style="width: 100%; height: 100%;"
+        loading="lazy"
+        style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
       ></model-viewer>
     `;
   } else if (isAndroid) {
@@ -43,19 +39,30 @@
       return;
     }
 
-    // Android with model-viewer, using Scene Viewer fallback handled internally
     arBtn.innerHTML = `
+      ${imgHTML}
       <model-viewer
+        id="mv"
         src="${cfg.glb}"
         alt="View ${cfg.title} in AR"
         ar
         ar-modes="scene-viewer"
-        poster="${cfg.image}"
-        loading="eager"
-        style="width: 100%; height: 100%;"
+        loading="lazy"
+        style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
       ></model-viewer>
     `;
   } else {
-    fallbackContent();
+    fallback.textContent = "AR is only supported on iOS and Android devices.";
+    arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
+  }
+
+  // Forward click on image to model-viewer to launch AR
+  const mv = document.getElementById("mv");
+  const img = arBtn.querySelector("img");
+  if (mv && img) {
+    img.style.cursor = "pointer";
+    img.addEventListener("click", () => {
+      mv.click();
+    });
   }
 })();
