@@ -10,12 +10,16 @@
   <link rel="preload" href="assets/Q Rack.png" as="image" />
   <link rel="preload" href="https://creative-ww.github.io/Q-Rack/assets/AR_DQ3358.glb" as="fetch" crossorigin />
   <link rel="stylesheet" href="style.css" />
+
+  <!-- model-viewer Web Component -->
+  <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
   <h1 id="project-title">Loading…</h1>
 
   <main>
-    <div id="ar-button" role="region" aria-label="AR Launch Button"></div>
+    <!-- Placeholder for dynamic model-viewer -->
+    <div id="ar-container" role="region" aria-label="AR Viewer"></div>
     <div class="fallback" id="fallback" aria-live="polite"></div>
   </main>
 
