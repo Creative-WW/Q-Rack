@@ -1,5 +1,3 @@
-//main.js
-
 (() => {
   const cfg = window.projectConfig;
   if (!cfg) return console.error("projectConfig is not defined");
@@ -24,7 +22,7 @@
     // iOS Quick Look with .usdz file
     arBtn.innerHTML = `<a rel="ar" href="${cfg.usdz}" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
   } else if (isAndroid) {
-    // Android Scene Viewer with full HTTPS URL to glb file
+    // Android Scene Viewer with HTTPS GLB URL
     if (!cfg.glb.startsWith("https://")) {
       fallback.textContent = "AR model must be hosted on a public HTTPS URL for Android devices.";
       arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
