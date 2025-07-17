@@ -26,35 +26,51 @@ h1 {
   font-size: 1.4rem;
 }
 
-#ar-container {
-  position: relative;
-  top: 50px;
-  margin-top: 60px;
+#ar-button {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: clamp(325px, 100vw, 500px);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
   z-index: 1001;
+}
+
+#ar-button img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  border: none;
+  cursor: pointer;
+}
+
+#ar-button img:hover {
+  transform: scale(1.05);
+}
+
+.active-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+}
+
+.disabled-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: not-allowed;
+  opacity: 0.5;
+  width: 100%;
+  height: 100%;
 }
 
 .fallback {
   position: fixed;
   top: 35%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  color: #666;
-  font-size: 0.9rem;
-  margin: 0;
-  z-index: 1002;
-}
-
-footer {
-  bottom: 0;
-  background: #000;
-  color: #fff;
-  padding: 6px 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.7rem;
-}
-
-footer img {
-  height: 20px;
-}
+  transform: translate(-50
