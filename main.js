@@ -1,5 +1,3 @@
-//main.js
-
 (() => {
   const cfg = window.projectConfig;
   if (!cfg) return console.error("projectConfig is not defined");
@@ -18,24 +16,46 @@
   const isIOS = /iPhone|iPad|iPod/i.test(ua);
   const isAndroid = /Android/i.test(ua);
 
-  const imgHTML = `<img src="${cfg.image}" alt="View ${cfg.title} in AR" loading="eager" />`;
+  // Helper: fallback for desktop or unsupported devices
+  const fallbackContent = () => {
+    fallback.textContent = "AR is only supported on iOS and Android devices.";
+    arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
+  };
 
   if (isIOS) {
-    // iOS Quick Look with .usdz file
-    arBtn.innerHTML = `<a rel="ar" href="${cfg.usdz}" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
+    // iOS Quick Look with model-viewer and .usdz
+    arBtn.innerHTML = `
+      <model-viewer
+        src="${cfg.glb}"
+        ios-src="${cfg.usdz}"
+        alt="View ${cfg.title} in AR"
+        ar
+        ar-modes="quick-look"
+        poster="${cfg.image}"
+        loading="eager"
+        style="width: 100%; height: 100%;"
+      ></model-viewer>
+    `;
   } else if (isAndroid) {
-    // Android Scene Viewer with HTTPS GLB URL
     if (!cfg.glb.startsWith("https://")) {
       fallback.textContent = "AR model must be hosted on a public HTTPS URL for Android devices.";
       arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
       return;
     }
 
-    const sceneViewerUrl = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(cfg.glb)}&mode=ar_preferred`;
-    arBtn.innerHTML = `<a href="${sceneViewerUrl}" target="_blank" rel="noopener" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
+    // Android with model-viewer, using Scene Viewer fallback handled internally
+    arBtn.innerHTML = `
+      <model-viewer
+        src="${cfg.glb}"
+        alt="View ${cfg.title} in AR"
+        ar
+        ar-modes="scene-viewer"
+        poster="${cfg.image}"
+        loading="eager"
+        style="width: 100%; height: 100%;"
+      ></model-viewer>
+    `;
   } else {
-    // Unsupported device
-    fallback.textContent = "AR is only supported on iOS and Android devices.";
-    arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
+    fallbackContent();
   }
 })();
