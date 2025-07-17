@@ -11,16 +11,18 @@
   <link rel="preload" href="https://creative-ww.github.io/Q-Rack/assets/AR_DQ3358.glb" as="fetch" crossorigin />
   <link rel="stylesheet" href="style.css" />
 
-  <!-- model-viewer Web Component -->
+  <!-- model-viewer for AR launch only -->
   <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
   <h1 id="project-title">Loading…</h1>
 
   <main>
-    <!-- Placeholder for dynamic model-viewer -->
-    <div id="ar-container" role="region" aria-label="AR Viewer"></div>
+    <div id="ar-button" role="region" aria-label="AR Launch Button"></div>
     <div class="fallback" id="fallback" aria-live="polite"></div>
+
+    <!-- Hidden model-viewer used for reliable AR launching -->
+    <model-viewer id="hidden-ar-launcher" style="display: none;" ar ar-modes="scene-viewer quick-look webxr"></model-viewer>
   </main>
 
   <footer>
