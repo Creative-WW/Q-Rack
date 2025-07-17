@@ -1,3 +1,5 @@
+//main.js
+
 (() => {
   const cfg = window.projectConfig;
   if (!cfg) return console.error("projectConfig is not defined");
