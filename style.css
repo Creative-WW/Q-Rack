@@ -1,5 +1,3 @@
-/*style.css*/
-
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
@@ -74,7 +72,7 @@ footer {
 footer img {
   height: 20px;
 }
- 
+
 .disabled-btn {
   position: fixed;
   top: 17.75%;
@@ -88,7 +86,6 @@ footer img {
   border-radius: 4px;
   cursor: not-allowed;
   opacity: 0.6;
-  margin-top: 0; /* remove margin-top since it's irrelevant now */
-  z-index: 1003; /* ensure it appears above other elements */
+  margin-top: 0;
+  z-index: 1003;
 }
-
