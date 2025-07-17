@@ -1,3 +1,5 @@
+//main.js
+
 (() => {
   const cfg = window.projectConfig;
   if (!cfg) return console.error("projectConfig is not defined");
@@ -19,50 +21,21 @@
   const imgHTML = `<img src="${cfg.image}" alt="View ${cfg.title} in AR" loading="eager" />`;
 
   if (isIOS) {
-    arBtn.innerHTML = `
-      ${imgHTML}
-      <model-viewer
-        id="mv"
-        src="${cfg.glb}"
-        ios-src="${cfg.usdz}"
-        alt="View ${cfg.title} in AR"
-        ar
-        ar-modes="quick-look"
-        loading="lazy"
-        style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
-      ></model-viewer>
-    `;
+    // iOS Quick Look with .usdz file
+    arBtn.innerHTML = `<a rel="ar" href="${cfg.usdz}" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
   } else if (isAndroid) {
+    // Android Scene Viewer with HTTPS GLB URL
     if (!cfg.glb.startsWith("https://")) {
       fallback.textContent = "AR model must be hosted on a public HTTPS URL for Android devices.";
       arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
       return;
     }
 
-    arBtn.innerHTML = `
-      ${imgHTML}
-      <model-viewer
-        id="mv"
-        src="${cfg.glb}"
-        alt="View ${cfg.title} in AR"
-        ar
-        ar-modes="scene-viewer"
-        loading="lazy"
-        style="position: absolute; width: 1px; height: 1px; opacity: 0; pointer-events: none;"
-      ></model-viewer>
-    `;
+    const sceneViewerUrl = `https://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(cfg.glb)}&mode=ar_preferred`;
+    arBtn.innerHTML = `<a href="${sceneViewerUrl}" target="_blank" rel="noopener" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
   } else {
+    // Unsupported device
     fallback.textContent = "AR is only supported on iOS and Android devices.";
     arBtn.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
-  }
-
-  // Forward click on image to model-viewer to launch AR
-  const mv = document.getElementById("mv");
-  const img = arBtn.querySelector("img");
-  if (mv && img) {
-    img.style.cursor = "pointer";
-    img.addEventListener("click", () => {
-      mv.click();
-    });
   }
 })();
