@@ -1,93 +1,93 @@
-//main.js
+/*style.css*/
 
-(() => {
-  const cfg = window.projectConfig;
-  if (!cfg) {
-    console.error("projectConfig is not defined");
-    return;
-  }
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+  background: #f9f9f9;
+  text-align: center;
+  padding: 50px 0;
+}
 
-  document.title = `${cfg.title} AR`;
-  document.getElementById("project-title").textContent = cfg.title;
-  document.getElementById("meta-description").content = cfg.description;
+h1, footer {
+  position: fixed;
+  width: 100%;
+  left: 0;
+  box-sizing: border-box;
+  z-index: 1000;
+}
 
-  const footerLogo = document.getElementById("footer-logo");
-  if (footerLogo && cfg.logo) footerLogo.src = cfg.logo;
+h1 {
+  top: 0;
+  background: #ea0000;
+  color: #fff;
+  margin: 0;
+  padding: 10px;
+  font-size: 1.4rem;
+}
 
-  const container = document.getElementById("ar-button-container");
-  const fallback = document.getElementById("fallback");
+#ar-button-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: clamp(325px, 100vw, 500px);
+  aspect-ratio: 1 / 1;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 1001;
+}
 
-  container.innerHTML = "";
-  fallback.textContent = "";
+#ar-button-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.2s ease-in-out;
+  display: block;
+}
 
-  const ua = navigator.userAgent;
-  const isIOS = /iPhone|iPad|iPod/i.test(ua);
-  const isAndroid = /Android/i.test(ua);
+#ar-button-container img:hover {
+  transform: scale(1.05);
+}
 
-  if (isIOS) {
-    if (!cfg.usdz) {
-      fallback.textContent = "USDZ file missing in config.";
-      container.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
-      return;
-    }
+.fallback {
+  position: fixed;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #666;
+  font-size: 0.9rem;
+  margin: 0;
+  z-index: 1002;
+}
 
-    const imgHTML = `<img src="${cfg.image}" alt="View ${cfg.title} in AR" loading="eager" />`;
-    container.innerHTML = `<a rel="ar" href="${cfg.usdz}" aria-label="View ${cfg.title} in AR">${imgHTML}</a>`;
+footer {
+  bottom: 0;
+  background: #000;
+  color: #fff;
+  padding: 6px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.7rem;
+}
 
-  } else if (isAndroid) {
-    if (!cfg.glb || !cfg.glb.startsWith("https://")) {
-      fallback.textContent = "GLB model must be hosted on HTTPS for Android AR.";
-      container.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
-      return;
-    }
+footer img {
+  height: 20px;
+}
 
-    // Create a hidden model-viewer for AR launch
-    const modelViewer = document.createElement("model-viewer");
-    modelViewer.setAttribute("src", cfg.glb);
-    modelViewer.setAttribute("ar", "");
-    modelViewer.setAttribute("ar-modes", "scene-viewer webxr quick-look");
-    modelViewer.style.width = "0";
-    modelViewer.style.height = "0";
-    modelViewer.style.position = "absolute";
-    modelViewer.style.visibility = "hidden";
-    document.body.appendChild(modelViewer);
-
-    // Create a button with your image inside
-    const btn = document.createElement("button");
-    btn.setAttribute("aria-label", `View ${cfg.title} in AR`);
-    btn.style.all = "unset";
-    btn.style.cursor = "pointer";
-
-    const img = document.createElement("img");
-    img.src = cfg.image;
-    img.alt = `View ${cfg.title} in AR`;
-    img.loading = "eager";
-    img.style.width = "100%";
-    img.style.height = "100%";
-    img.style.objectFit = "contain";
-    btn.appendChild(img);
-
-    container.appendChild(btn);
-
-    btn.addEventListener("click", async () => {
-      fallback.textContent = "";
-
-      try {
-        const canActivate = await modelViewer.canActivateAR;
-        if (canActivate) {
-          await modelViewer.enterAR();
-        } else {
-          fallback.textContent = "AR is not supported on this Android device/browser.";
-        }
-      } catch (err) {
-        console.error(err);
-        fallback.textContent = "Failed to launch AR viewer.";
-      }
-    });
-
-  } else {
-    // Desktop and other unsupported devices
-    fallback.textContent = "AR is only supported on iOS and Android devices.";
-    container.innerHTML = `<button class="disabled-btn" disabled>AR Not Available</button>`;
-  }
-})();
+.disabled-btn {
+  position: fixed;
+  top: 17.75%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 10px 20px;
+  font-size: 1rem;
+  background: #ea0000;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: not-allowed;
+  opacity: 0.6;
+  margin-top: 0;
+  z-index: 1003;
+}
